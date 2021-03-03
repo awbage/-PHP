@@ -56,42 +56,48 @@ class Farm {
 
     private $registrationNumber = 1;
     
-    private $animals_id = array();
+    private $animals = array();
     
-    public $Production = array();
+    private $Production = array();
 
-    public $prod = [];
+    private $prod = [];
 
-    public function addAnimal(Animal $animal) {
+    public function addAnimal(Animal $animal){
 
         $animal->setRegistrationNumber($this->registrationNumber); 
 
-        $animals_id[$animal->getName()] = $animal->getRegistrationNumber(); 
+        $this->animals[] = $animal;
 
-        $Production[$animal->getNameProduct()] =  $animal->Produce(); 
-
-        $this->prod[$animal->getNameProduct()]=$this->prod[$animal->getNameProduct()] + $Production[$animal->getNameProduct()];
-
-        $this->registrationNumber += 1;
+        $this->registrationNumber += 1;   
     }
-    function countProd(){
-        foreach ($this->prod as $k=>$v){
+
+    public function makeProduction(){
+
+        foreach ($this->animals as $a){
+            $this->Production[$a->getNameProduct()] += $a->Produce();
+        }
+    }
+
+    public function collectProd(){
+
+        foreach ($this->Production as $k=>$v){
             echo '<br>Total '.$k.': '.$v;
-    }
+        }
     }
 }
 
-$farm = new Farm;
+$farm = new Farm();
 
 
 for ($i=1; $i<=10; $i++) {
-    $newanimal = new Cow;
+    $newanimal = new Cow();
     $farm->addAnimal($newanimal);
 }
 for ($i=1; $i<=20; $i++) {
-    $newanimal = new Chicken;
+    $newanimal = new Chicken();
     $farm->addAnimal($newanimal);
 }
-$farm->countProd();
 
+$farm->makeProduction();
+$farm->collectProd();
 ?>
