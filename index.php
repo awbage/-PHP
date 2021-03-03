@@ -78,7 +78,7 @@ class Farm {
         }
     }
 
-    public function collectProd(){
+    public function countProd(){
 
         foreach ($this->Production as $k=>$v){
             echo '<br>Total '.$k.': '.$v;
@@ -99,5 +99,7 @@ for ($i=1; $i<=20; $i++) {
 }
 
 $farm->makeProduction();
-$farm->collectProd();
+
+$farm->countProd();
 ?>
+
