@@ -24,17 +24,17 @@ abstract class Animal {
     }
 
     public function getNameProduct(){
-        $this->nameProduct;
+        return $this->nameProduct;
+    }
+    public function getName(){
+        return $this->name;
     }
 }
     
 class Cow extends Animal {
 
     function __construct() {
-        parent::__construct($nameProduct='Milk', $name='Cow');
-        $this->name = $name;
-        $this->nameProduct = $nameProduct;
-        
+        parent::__construct($name='Cow', $nameProduct='Milk');
     }
 
     function Produce() {
@@ -44,9 +44,7 @@ class Cow extends Animal {
 class Chicken extends Animal {
 
     function __construct() {
-        parent::__construct($nameProduct='Eggs', $name='Chicken');
-        $this->name = $name;
-        $this->nameProduct = $nameProduct;
+        parent::__construct($name='Chicken', $nameProduct='Eggs');
     }
 
     function Produce() {
@@ -65,13 +63,24 @@ class Farm {
     public $prod = [];
 
     public function addAnimal(Animal $animal) {
+
         $animal->setRegistrationNumber($this->registrationNumber); 
-        $animals_id[$animal->name] = $this->registrationNumber; 
-        $Production[$animal->nameProduct] =  $animal->Produce(); 
-        $this->prod[$animal->nameProduct]=$this->prod[$animal->nameProduct] + $Production[$animal->nameProduct];
+
+        $animals_id[$animal->getName()] = $animal->getRegistrationNumber(); 
+
+        $Production[$animal->getNameProduct()] =  $animal->Produce(); 
+
+        $this->prod[$animal->getNameProduct()]=$this->prod[$animal->getNameProduct()] + $Production[$animal->getNameProduct()];
+
         $this->registrationNumber += 1;
     }
+    function countProd(){
+        foreach ($this->prod as $k=>$v){
+            echo '<br>Total '.$k.': '.$v;
+    }
+    }
 }
+
 $farm = new Farm;
 
 
@@ -83,8 +92,6 @@ for ($i=1; $i<=20; $i++) {
     $newanimal = new Chicken;
     $farm->addAnimal($newanimal);
 }
-foreach ($farm->prod as $k=>$v){
-    echo '<br>Total '.$k.': '.$v;
-}
+$farm->countProd();
 
 ?>
